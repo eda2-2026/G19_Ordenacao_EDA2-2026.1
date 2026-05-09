@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenação</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div>
+        <header>
+            <h1>Ordena Músicas</h1>
+        </header>
+
+        <div>
+            <form action="/" method="GET" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                <div>
+                    <label for="ordenar_por">Organizar por:</label>
+                    <select name="ordenar_por" id="ordenar_por">
+                        <option value="nenhum" {% if ordenacao_atual == 'nenhum' %}selected{% endif %}>Sem ordenação</option>
+                        <optgroup label="Números">
+                            <option value="popularidade" {% if ordenacao_atual == 'popularidade' %}selected{% endif %}>Popularidade</option>
+                            <option value="seguidores" {% if ordenacao_atual == 'seguidores' %}selected{% endif %}> Seguidores</option>
+                            <option value="duracao" {% if ordenacao_atual == 'duracao' %}selected{% endif %}>⏱Duração</option>
+                        </optgroup>
+                        <optgroup label="Textos">
+                            <option value="nome_musica" {% if ordenacao_atual == 'nome_musica' %}selected{% endif %}>Nome da Música</option>
+                            <option value="nome_artista" {% if ordenacao_atual == 'nome_artista' %}selected{% endif %}>Nome do Artista</option>
+                            <option value="album" {% if ordenacao_atual == 'album' %}selected{% endif %}>Álbum</option>
+                            <option value="genero" {% if ordenacao_atual == 'genero' %}selected{% endif %}>Gênero</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="ordem">Sentido:</label>
+                    <select name="ordem" id="ordem">
+                        <option value="asc" {% if ordem_atual == 'asc' %}selected{% endif %}>Crescente (A-Z, 0-9)</option>
+                        <option value="desc" {% if ordem_atual == 'desc' %}selected{% endif %}>Decrescente (Z-A, 9-0)</option>
+                    </select>
+                </div>
+
+                <input type="hidden" name="pagina" value="1">
+                <button type="submit" class="btn">Aplicar Filtro</button>
+            </form>
+        </div>
+
+        <main>
+            {% for musica in musicas %}
+                <div>
+                    <img src="{{ musica.cover_url }}" alt="Capa de {{ musica.track_name }}" class="card-img">
+                    
+                    <div>
+                        <h2>{{ musica.track_name }}</h2>
+                        <p>{{ musica.artist_name }}</p>
+                        <p class="artist" style="font-size: 0.8rem; color: #888;">
+                            💿 {{ musica.album_name }}<br>
+                            🎸 {{ musica.artist_genres }}
+                        </p>
+                        <div> 
+                            <span class="stat-badge" title="Popularidade da Música">
+                                {{ musica.track_popularity }}/100
+                            </span>
+                            <span title="Seguidores do Artista">
+                                {{ "{:,}".format(musica.artist_followers).replace(',', '.') }}
+                            </span>
+                            <span title="Duração da Música">
+                                {{ musica.track_duration_min }} min
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p>Nenhuma música encontrada ou arquivo CSV vazio.</p>
+            {% endfor %}
+        </main>
+
+        <div>
+            {% if pagina_atual > 1 %}
+                <a href="/?ordenar_por={{ ordenacao_atual }}&pagina={{ pagina_atual - 1 }}" class="btn-page">
+                    &laquo; Anterior
+                </a>
+            {% endif %}
+
+            <span>Página {{ pagina_atual }} de {{ total_paginas }}</span>
+
+            {% if pagina_atual < total_paginas %}
+                <a href="/?ordenar_por={{ ordenacao_atual }}&pagina={{ pagina_atual + 1 }}" class="btn-page">
+                    Próxima &raquo;
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
