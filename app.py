@@ -62,19 +62,20 @@ def buscar_uma_capa(musica):
     if track_id in cache_capas:
         musica['cover_url'] = cache_capas[track_id]
         return musica
+    
 
     try:
         track_info = sp.track(track_id)
         if track_info and len(track_info['album']['images']) > 0:
             url = track_info['album']['images'][1]['url']
         else:
-            url = 'https://via.placeholder.com/300x300?text=Sem+Capa'
+            url = 'https://placehold.co/300x300/282828/282828?text='
             
         cache_capas[track_id] = url 
         musica['cover_url'] = url
         
     except Exception:
-        musica['cover_url'] = 'https://via.placeholder.com/300x300?text=Bloqueada'
+        musica['cover_url'] = 'https://placehold.co/300x300/282828/282828?text='
         
     return musica
 
