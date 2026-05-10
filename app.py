@@ -11,8 +11,8 @@ from ordenacao import counting_sort, radix_sort, merge_sort
 
 app = Flask(__name__)
 
-CLIENT_ID = 'a7299f6287554d3abeb06de33dbd9781'
-CLIENT_SECRET = '5ac0bfd3e6594d83b029963b7a2b50f5'
+CLIENT_ID = '83148ba0c45e4838abe36f171130dd41'
+CLIENT_SECRET = '203cb972253546ee87d998863b0f4878'
 
 client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager, retries=0)
