@@ -10,7 +10,7 @@ Conteúdo da Disciplina: Algoritmos de Ordenação<br>
 
 ## Vídeo de Apresentação
 
-* 
+* https://youtu.be/0JFw_fYvGWQ
 
 ## Sobre 
 
