@@ -7,12 +7,15 @@ import os
 import concurrent.futures
 from spotipy.oauth2 import SpotifyClientCredentials
 from ordenacao import counting_sort, radix_sort, merge_sort
+from dotenv import load_dotenv
 
 
 app = Flask(__name__)
 
-CLIENT_ID = '83148ba0c45e4838abe36f171130dd41'
-CLIENT_SECRET = '203cb972253546ee87d998863b0f4878'
+load_dotenv()
+
+CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
+CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
 
 client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager, retries=0)
